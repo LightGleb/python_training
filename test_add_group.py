@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
@@ -8,12 +7,9 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import unittest, time, re
 
-options = Options()
-options.binary_location = r'C:\Program Files\Mozilla Firefox\firefox.exe'
-
 class TestAddGroup(unittest.TestCase):
     def setUp(self):
-        self.wd = webdriver.Firefox(executable_path=r'C:\WebDrivers\geckodriver.exe', options=options)
+        self.wd = webdriver.Firefox()
         self.wd.implicitly_wait(30)
 
     
