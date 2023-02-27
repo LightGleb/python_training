@@ -23,9 +23,9 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_xpath("//input[@value='Login']").click()
 
     def create_contact(self, wd, contact):
-        # init contact creation
+        # Нажатие на кнопку "add new"
         wd.find_element_by_link_text("add new").click()
-        # fill contact form
+        # Заполнение формы контакта
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(contact.firstname)
@@ -38,7 +38,9 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("nickname").click()
         wd.find_element_by_name("nickname").clear()
         wd.find_element_by_name("nickname").send_keys(contact.nickname)
-        wd.find_element_by_name("photo").send_keys(contact.photo)
+        # Условие для пропуска заполнения поля при передаче пустого значения атарибута contact.photo
+        if contact.photo != "":
+            wd.find_element_by_name("photo").send_keys(contact.photo)
         wd.find_element_by_name("title").click()
         wd.find_element_by_name("title").clear()
         wd.find_element_by_name("title").send_keys(contact.title)
@@ -57,12 +59,16 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("homepage").click()
         wd.find_element_by_name("homepage").clear()
         wd.find_element_by_name("homepage").send_keys(contact.homepage)
-        wd.find_element_by_name("bday").click()
-        Select(wd.find_element_by_name("bday")).select_by_visible_text(contact.bday)
-        wd.find_element_by_xpath(f"//option[@value='{contact.bday}']").click()
-        wd.find_element_by_name("bmonth").click()
-        Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
-        wd.find_element_by_xpath(f"//option[@value='{contact.bmonth}']").click()
+        # Условие для пропуска заполнения поля при передаче пустого значения атарибута contact.bday
+        if contact.bday != "":
+            wd.find_element_by_name("bday").click()
+            Select(wd.find_element_by_name("bday")).select_by_visible_text(contact.bday)
+            wd.find_element_by_xpath(f"//option[@value='{contact.bday}']").click()
+        # Условие для пропуска заполнения поля при передаче пустого значения атарибута contact.bmonth
+        if contact.bmonth != "":
+            wd.find_element_by_name("bmonth").click()
+            Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
+            wd.find_element_by_xpath(f"//option[@value='{contact.bmonth}']").click()
         wd.find_element_by_name("byear").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys(contact.byear)
@@ -75,7 +81,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
-        # submit contact creation
+        # Нажатие на кнопку "Enter"
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
     def return_to_home_page(self, wd):
