@@ -14,6 +14,7 @@ class TestAddContact(unittest.TestCase):
         wd.get("http://localhost/addressbook/")
 
     def login(self, wd, username, password):
+        self.open_home_page(wd)
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -59,12 +60,12 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("homepage").click()
         wd.find_element_by_name("homepage").clear()
         wd.find_element_by_name("homepage").send_keys(contact.homepage)
-        # Условие для пропуска заполнения поля при передаче пустого значения атарибута contact.bday
+        # Условие для пропуска заполнения поля при передаче пустого значения атрибута contact.bday
         if contact.bday != "":
             wd.find_element_by_name("bday").click()
             Select(wd.find_element_by_name("bday")).select_by_visible_text(contact.bday)
             wd.find_element_by_xpath(f"//option[@value='{contact.bday}']").click()
-        # Условие для пропуска заполнения поля при передаче пустого значения атарибута contact.bmonth
+        # Условие для пропуска заполнения поля при передаче пустого значения атрибута contact.bmonth
         if contact.bmonth != "":
             wd.find_element_by_name("bmonth").click()
             Select(wd.find_element_by_name("bmonth")).select_by_visible_text(contact.bmonth)
@@ -83,6 +84,7 @@ class TestAddContact(unittest.TestCase):
         wd.find_element_by_name("notes").send_keys(contact.notes)
         # Нажатие на кнопку "Enter"
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.return_to_home_page(wd)
 
     def return_to_home_page(self, wd):
         wd.find_element_by_link_text("home page").click()
@@ -92,7 +94,6 @@ class TestAddContact(unittest.TestCase):
 
     def test_add_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_contact(wd, Contact(firstname="Глеб",
                                         middlename="Николаевич",
@@ -111,12 +112,10 @@ class TestAddContact(unittest.TestCase):
                                         address2="www.ленинград.ru",
                                         phone2="+7 666 666 66 67",
                                         notes="Как то так :)"))
-        self.return_to_home_page(wd)
         self.logout(wd)
 
     def test_add_empty_contact(self):
         wd = self.wd
-        self.open_home_page(wd)
         self.login(wd, username="admin", password="secret")
         self.create_contact(wd, Contact(firstname="",
                                         middlename="",
@@ -135,7 +134,6 @@ class TestAddContact(unittest.TestCase):
                                         address2="",
                                         phone2="",
                                         notes=""))
-        self.return_to_home_page(wd)
         self.logout(wd)
 
     def tearDown(self):
