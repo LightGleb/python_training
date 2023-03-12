@@ -23,7 +23,7 @@ class ContactHelper:
         wd.find_element_by_name("nickname").click()
         wd.find_element_by_name("nickname").clear()
         wd.find_element_by_name("nickname").send_keys(contact.nickname)
-        # Условие для пропуска заполнения поля при передаче пустого значения атарибута contact.photo
+        # Условие для пропуска заполнения поля при передаче пустого значения атрибута contact.photo
         if contact.photo != "":
             wd.find_element_by_name("photo").send_keys(contact.photo)
         wd.find_element_by_name("title").click()
@@ -72,6 +72,8 @@ class ContactHelper:
 
     def edit_first_contact_from_home_page(self, contact):
         wd = self.app.wd
+        # Открытие домашней страницы, если мы ещё не на ней
+        self.app.open_home_page()
         # Нажать на чекбокс первого контакта
         wd.find_element_by_name("selected[]").click()
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
@@ -131,6 +133,8 @@ class ContactHelper:
 
     def edit_first_contact_from_contact(self, contact):
         wd = self.app.wd
+        # Открытие домашней страницы, если мы ещё не на ней
+        self.app.open_home_page()
         # Нажать на значек голубого человека
         wd.find_element_by_xpath("//img[@alt='Details']").click()
         # Нажать на кнопку "Modifiy"
@@ -191,6 +195,8 @@ class ContactHelper:
 
     def delete_first_contact_from_home_page(self):
         wd = self.app.wd
+        # Открытие домашней страницы, если мы ещё не на ней
+        self.app.open_home_page()
         # Нажать на чекбокс первого контакта
         wd.find_element_by_name("selected[]").click()
         # Нажать на кнопку "Delete"
@@ -201,6 +207,8 @@ class ContactHelper:
 
     def delete_first_contact_from_contact(self):
         wd = self.app.wd
+        # Открытие домашней страницы, если мы ещё не на ней
+        self.app.open_home_page()
         # Нажать на первую картинку с карандашем
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         # Нажатие на кнопку "Delete"
