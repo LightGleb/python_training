@@ -18,20 +18,25 @@ class ContactHelper:
         self.contact_cache = None
 
     def edit_first_contact_from_home_page(self, new_contact_data):
+        self.edit_contact_by_index_from_home_page(0, new_contact_data)
+
+    def edit_first_contact_from_contact(self, new_contact_data):
+        self.edit_contact_by_index_from_contact(0, new_contact_data)
+
+    def edit_contact_by_index_from_home_page(self, index, new_contact_data):
         # Открытие домашней страницы, если мы ещё не на ней
         self.app.open_home_page()
-        self.select_first_contact()
-        self.click_first_pencil_icon()
+        self.click_pencil_icon_by_index(index)
         self.fill_contact_form(new_contact_data)
         self.click_button_update()
         self.return_to_home_page()
         self.contact_cache = None
 
-    def edit_first_contact_from_contact(self, new_contact_data):
+    def edit_contact_by_index_from_contact(self, index, new_contact_data):
         wd = self.app.wd
         # Открытие домашней страницы, если мы ещё не на ней
         self.app.open_home_page()
-        self.open_first_contact()
+        self.open_contact_by_index(index)
         # Нажать на кнопку "Modifiy"
         wd.find_element_by_name("modifiy").click()
         self.fill_contact_form(new_contact_data)
@@ -40,10 +45,16 @@ class ContactHelper:
         self.contact_cache = None
 
     def delete_first_contact_from_home_page(self):
+        self.delete_contact_by_index_from_home_page(0)
+
+    def delete_first_contact_from_contact(self):
+        self.delete_contact_by_index_from_contact(0)
+
+    def delete_contact_by_index_from_home_page(self, index):
         wd = self.app.wd
         # Открытие домашней страницы, если мы ещё не на ней
         self.app.open_home_page()
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         # Нажать на кнопку "Delete"
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         # Подтвердить удаление
@@ -51,11 +62,11 @@ class ContactHelper:
         self.return_to_home_page()
         self.contact_cache = None
 
-    def delete_first_contact_from_contact(self):
+    def delete_contact_by_index_from_contact(self, index):
         wd = self.app.wd
         # Открытие домашней страницы, если мы ещё не на ней
         self.app.open_home_page()
-        self.click_first_pencil_icon()
+        self.click_pencil_icon_by_index(index)
         # Нажатие на кнопку "Delete"
         wd.find_element_by_xpath("//div[@id='content']/form[2]/input[2]").click()
         self.return_to_home_page()
@@ -65,9 +76,17 @@ class ContactHelper:
         wd = self.app.wd
         wd.find_element_by_xpath("//img[@alt='Details']").click()
 
+    def open_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_xpath("//img[@alt='Details']")[index].click()
+
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def click_button_update(self):
         wd = self.app.wd
@@ -76,6 +95,10 @@ class ContactHelper:
     def click_first_pencil_icon(self):
         wd = self.app.wd
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
+
+    def click_pencil_icon_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_xpath("//img[@alt='Edit']")[index].click()
 
     def change_field_value(self, field_name, text):
         wd = self.app.wd
